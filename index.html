@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="//vjs.zencdn.net/8.3.0/video-js.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <video controls id="example-player" class="video">
+            <source src="//vjs.zencdn.net/v/oceans.mp4">
+        </video>
+    </div>
+
+    <div id="root">
+
+    </div>
+
+    <script src="//vjs.zencdn.net/8.3.0/video.min.js"></script>
+    <script src="./app/helpers.js"></script>
+    <script src="./app/EventEmitter.js"></script>
+    <script src="./app/Chat.js"></script>
+    <script>
+        const ownerUserName = 'Пингвин малютка';
+        const data = [
+            {
+                id: 1,
+                text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam minus dolores ene fuga corporis, molestiae incidunt maxime reprehenderit, veritatis',
+                date: 1710242112562,
+                userName: 'Пингвин малютка',
+                userPhoto: './1.jpg',
+            },
+
+            {
+                id: 2,
+                text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam minus dolores ene fuga corporis, molestiae incidunt maxime reprehenderit, veritatis',
+                date: 1710242112462,
+                userName: 'Пингвин большой 1',
+                userPhoto: './2.jpg',
+            },
+
+            {
+                id: 3,
+                text: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam minus dolores ene fuga corporis, molestiae incidunt maxime reprehenderit, veritatis',
+                date: 1710242115562,
+                userName: 'Пингвин большой 2',
+                userPhoto: './2.jpg',
+            }
+        ]
+    </script>
+
+    <script>
+        const Plugin = videojs.getPlugin('plugin');
+
+        class ChatPlugin extends Plugin {
+
+            constructor(player, options) {
+                super(player, options);
+
+                player.on('playing', this.playing.bind(this));
+                player.on('pause', this.pause.bind(this));
+
+                this.init(player)
+
+            }
+
+            init(player) {
+                let localData = JSON.parse(localStorage.getItem(player.id_))
+                localData ?
+                    this.chat = new Chat('Пингвин малютка', [...data, ...localData]) :
+                    this.chat = new Chat('Пингвин малютка', data)
+
+                this.chat.render(player.el_)
+
+                this.chat.addEventListener('message', (newMessages) => {
+                    const newLocalData = localData ? [...localData, newMessages] : [newMessages]
+                    localStorage.setItem(player.id_, JSON.stringify(newLocalData))
+                })
+            }
+
+            playing() {
+                this.chat.toggle()
+                console.log('Плеер запустили ');
+            }
+
+            pause() {
+                this.chat.toggle()
+                console.log('Плеер остановился ');
+            }
+        }
+
+        videojs.registerPlugin('chat', ChatPlugin);
+
+        const player = videojs('example-player', {});
+        player.chat()
+    </script>
+</body>
+
+</html>

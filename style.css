@@ -1,0 +1,133 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.example-player-dimensions,
+video {
+    max-width: 600px;
+    height: auto;
+}
+
+.chat {
+    margin-top: 40px;
+    padding: 10px;
+    border-radius: 20px;
+    max-width: 600px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+    max-height: 0px;
+    overflow: hidden;
+}
+
+.chat--open {
+    max-height: 1000px;
+    transition: max-height 1s ease-in-out;
+}
+
+.chat-content {
+    flex-direction: column;
+    padding: 10px;
+    /* border: 1px solid #000; */
+    height: 300px;
+    overflow-y: scroll;
+    justify-content: flex-end;
+
+}
+
+.chat-content__messages,
+.chat-content__messages--my {
+    display: block;
+    margin-top: 5px;
+}
+
+.chat-content__messages {
+    text-align: left;
+}
+
+.chat-content__messages--my {
+    text-align: right;
+}
+
+.chat-message {
+    /* max-width: 50%; */
+    margin-bottom: 20px;
+    gap: 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.chat-message__text {
+    position: relative;
+    padding: 15px;
+    border-radius: 10px;
+
+
+}
+
+.chat-message__date {
+    margin-top: 10px;
+    display: block;
+    /* color: rgba(255, 255, 255, 0.5); */
+    /* position: absolute; */
+    /* margin-top: 10px; */
+}
+
+.chat-message__photo {
+    max-width: 50px;
+    border-radius: 50%;
+}
+
+.chat-message__login {
+    margin-bottom: 10px;
+}
+
+.chat-message>.chat-message__photo {
+    order: 1;
+}
+
+.chat-message>.chat-message__text {
+    background-color: #ECEEF2;
+    color: #000;
+    order: 2;
+}
+
+.chat-message>.chat-message__date {
+    color: #000;
+}
+
+.chat-message--my>.chat-message__photo {
+    order: 2;
+}
+
+.chat-message--my>.chat-message__text {
+    background-color: #0072F3;
+    color: #fff;
+    order: 1;
+}
+
+
+
+.chat-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+}
+
+.chat-form__textarian {
+    resize: none;
+    height: 50px;
+    font-size: 20px;
+    padding: 5px;
+    width: 100%;
+}
+
+.chat-form__btn {
+    cursor: pointer;
+}
